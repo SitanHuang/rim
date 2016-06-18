@@ -83,6 +83,14 @@ if not File.exist? options[:src] + '/rim.rb'
   error "Source codes not found under directory #{options[:src]}"
 end
 
+
+# ===== check gems ===== (source first, requiring source codes)
+
+puts "Checking gems"
+require "#{options[:src]}/core/gems.rb"
+
+# ===== check install =====
+
 if not options[:install]
   puts "\nConfiguration completed. check -h for the next step :)\n"
   exit
