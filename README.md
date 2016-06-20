@@ -39,4 +39,4 @@ Surely you can contribute to it!
 
 ## Contribution
 1. Open an issue states your intend
-2. ''we will talk about this later...''
+2. _we will talk about this later..._
