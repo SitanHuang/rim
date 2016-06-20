@@ -10,9 +10,9 @@ module Rim
 
     # all about versions stuff
     @version = {
-      base: '0.0.02',
+      base: '0.0.04',
       suffix: 'preDEV',
-      whole: '0.0.02-preDEV'
+      whole: '0.0.04-preDEV'
     }
 
     # arguments parser

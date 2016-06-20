@@ -27,7 +27,7 @@ module Rim
       attr_accessor :focused
 
       def initialize init
-        @buffer = Buffer.new '', File.read(__FILE__)
+        @buffer = Buffer.new '', ''
         @separator = false
         @col = 1
         @row = 1
@@ -54,8 +54,8 @@ module Rim
         @buffer.col = @scroll_max_col
         if @buffer.col >= @buffer.lines[@buffer.row - 1].length
           @buffer.col = @buffer.lines[@buffer.row - 1].length - 1
-          @buffer.col = 0 if @buffer.col < 0
         end
+        @buffer.col = 0 if @buffer.col < 0
         calculateStartrow
         calculateStartcol
         self
@@ -71,13 +71,14 @@ module Rim
             @buffer.col = @buffer.lines[@buffer.row - 1].length - 1
           end
         elsif @buffer.col < 0
-          if @buffer.lines[@buffer.row - 2]
+          if @buffer.row - 1 > 0
             @buffer.row -= 1
             @buffer.col = @buffer.lines[@buffer.row - 1].length - 1
           else
             @buffer.col = 0
           end
         end
+        @buffer.col = 0 if @buffer.col < 0
         @scroll_max_col = @buffer.col
         calculateStartrow
         calculateStartcol
@@ -91,6 +92,7 @@ module Rim
         elsif @start_row < 0
           @start_row = 0
         end
+        @buffer.col = 0 if @buffer.col < 0
         self
       end
 
@@ -101,6 +103,7 @@ module Rim
           @start_row = @buffer.row - (@height - @height / 4)
         end
         @start_row = 0 if @start_row < 0
+        @buffer.col = 0 if @buffer.col < 0
         self
       end
 
@@ -118,6 +121,7 @@ module Rim
           @start_col = @buffer.col - (@width / 2)
         end
         @start_col = 0 if @start_col < 0
+        @buffer.col = 0 if @buffer.col < 0
         self
       end
 
@@ -125,6 +129,7 @@ module Rim
       # not paint, not confusing anyone
       def draw
         calculateStartrow
+        calculateStartcol
 
         theme_ui = Rim::Paint.theme[:ui]
         plain = Rim::Paint.theme[:plain]

@@ -67,8 +67,8 @@ puts ""
 
 # ===== check version =====
 
-if RUBY_VERSION.start_with? '2.0'
-  warn "Ruby 2.0.x might not be fully supported, use the lastest ruby instead :()"
+if RUBY_VERSION.start_with? '2.0' or RUBY_VERSION.start_with? '2.1'
+  warn "Ruby 2.[0,1].x might not be fully supported, use the lastest ruby instead :()"
 elsif not RUBY_VERSION.start_with? '2.'
   error "Use the lastest ruby instead :()"
 end
