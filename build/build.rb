@@ -116,4 +116,4 @@ cmd "cp -r #{options[:src]}/* #{options[:prefix]}/rim"
 
 puts\
 "Installation complete.
-Try use rim -V to see if that works. :)"
+Try use rim -v to see if that works. :)"

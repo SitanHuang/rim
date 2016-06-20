@@ -10,9 +10,9 @@ module Rim
 
     # all about versions stuff
     @version = {
-      base: '0.0.00',
+      base: '0.0.02',
       suffix: 'preDEV',
-      whole: '0.0.00-preDEV'
+      whole: '0.0.02-preDEV'
     }
 
     # arguments parser
@@ -54,4 +54,3 @@ Executable file: #{$EXEC}
   end
 
 end
-
