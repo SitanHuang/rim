@@ -1,4 +1,6 @@
 # rim, yet another vim-like editor
+
+[![Join the chat at https://gitter.im/SitanHuang/rim](https://badges.gitter.im/SitanHuang/rim.svg)](https://gitter.im/SitanHuang/rim?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 100% implemented in ruby
 
 ## pros
