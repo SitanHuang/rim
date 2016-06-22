@@ -27,7 +27,7 @@ module Rim
       attr_accessor :focused
 
       def initialize init
-        @buffer = Buffer.new '', ''
+        @buffer = Buffer.new '', "\t\tpublic static void main(String[] args) { System.out.println('Hello world!'); }"+ "\nasdf" * 50
         @separator = false
         @col = 1
         @row = 1
@@ -113,12 +113,14 @@ module Rim
 
       def calculateStartcol
         buffer_size = @buffer.lines.size
-        if @start_col + $numbers_min_space + buffer_size.to_s.length\
-            + sep_width\
+        max_line_length = $numbers_min_space + 1 # spaces
+        max_line_length += buffer_size.to_s.length + sep_width# numbers
+        max_line_length = @width - max_line_length
+        if @start_col + max_line_length - 2\
             < @buffer.col
-            @start_col = @buffer.col - (@width / 2)
+          @start_col +=5
         elsif @start_col > @buffer.col
-          @start_col = @buffer.col - (@width / 2)
+          @start_col = @buffer.col - (@width - @width / 4)
         end
         @start_col = 0 if @start_col < 0
         @buffer.col = 0 if @buffer.col < 0
@@ -178,9 +180,14 @@ module Rim
               # process by colums
               str << plain[:line]
               str << plain[:current_line] if @buffer.row == line + 1
-              buffer_line = @buffer.lines[line].gsub("\t", " " * $tab_width)
-              buffer_line[0..max_line_length - 1].chars.each_with_index do |char, col|
-                # insert syntax attributes here later
+              # replace tabs with spaces virtually
+              buffer_line = @buffer.lines[line][@start_col..10**10]
+              if buffer_line == nil
+                buffer_line = ''
+              end
+              buffer_line = buffer_line
+              buffer_line[0..max_line_length].chars.each_with_index do |char, col|
+                # insert syntax attributes here for a todo
                 str << char
               end
               str << ' ' * (max_line_length - buffer_line.length) if buffer_line.size < max_line_length
@@ -199,8 +206,7 @@ module Rim
           # cursor row
           crow = @row + (@buffer.cursor_row - 1 - @start_row)
           ccol = @col - 1 + $numbers_min_space + buffer_size.to_s.length + sep_width
-          ccol += @buffer.col + 2
-          ccol += @buffer.lines[@buffer.row-1][0..(@buffer.col-1)].count("\t")*($tab_width - 1) if @buffer.col != 0
+          ccol += @buffer.col + 2 - @start_col
           str << T.cursor(crow, ccol)
         elsif @focused && width < 5
           str << T.cursor(@row, @col)
@@ -213,7 +219,7 @@ module Rim
       # ===== pane configurations =====
       $numbers = true # line numbers
       $numbers_min_space = 1 # minimum space before number
-      $tab_width = 2
+      $tab_width = 4
     end
   end
 end
