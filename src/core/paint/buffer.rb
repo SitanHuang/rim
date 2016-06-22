@@ -6,9 +6,13 @@ module Rim
       attr_accessor :lines
       attr_accessor :row
       attr_accessor :col
+      attr_accessor :saved
 
       def initialize file, content
         @row, @col = 1, 0
+        @file = file
+        # not saved when new file
+        @saved = !@file.empty?
         # lines will be initialized in #update_lines
         update_lines content
       end
@@ -17,7 +21,7 @@ module Rim
       # warning, slow, need to update the whole thing
       def update_lines content
         # let all windows stuff into linux for better processing
-        content = content.gsub("\r\n", "\n").gsub("\r", "\n") + "\n"
+        content = content.gsub("\r\n", "\n").gsub("\r", "\n").gsub("\t", " " * $tab_width) + "\n"
         # reset the lines in this buffer
         # or initialize when newed buffer
         @lines = []
@@ -32,6 +36,14 @@ module Rim
           end
         end
         self
+      end
+
+      def display_name
+        if @file.empty?
+          '[ New File ]'
+        else
+          @file + (@saved ? '' : '+')
+        end
       end
 
       def cursor_row; row; end
