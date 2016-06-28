@@ -1,6 +1,9 @@
 # rim, yet another vim-like editor
 
 [![Join the chat at https://gitter.im/SitanHuang/rim](https://badges.gitter.im/SitanHuang/rim.svg)](https://gitter.im/SitanHuang/rim?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+
+
 **100% implemented in ruby**
 
 ![](https://raw.githubusercontent.com/SitanHuang/rim/master/src/screenshot.png)
@@ -17,6 +20,15 @@
   - but can easily do things you do with mouse with vim
 2. BAD support for windows even you have ansicon
    installed within that little cmd.exe
+
+## Installation
+1. download everything into `folder`
+2. `cd folder` or `cd folder/build`
+3. `build/build.rb -h`
+4. check the variables
+5. execute without the install option
+6. fix problems and do it with the install option
+
 
 ## Q & A
 - **Q:**
