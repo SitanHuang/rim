@@ -26,6 +26,8 @@ module Rim
 
       attr_accessor :focused
 
+      attr_accessor :mode
+
       def initialize init
         @buffer = Buffer.new '', ""
         @separator = false
@@ -35,6 +37,7 @@ module Rim
         @start_row = 0
         @start_col = 0
         @scroll_max_col = @buffer.col
+        @mode = 'normal'
         init.each_pair do |key, val|
           instance_variable_set '@' + key.to_s, val
         end
@@ -194,6 +197,8 @@ module Rim
             elsif row < endRow
               str << T.default << theme_ui[:pane]
               str << '~'
+            elsif row == endRow
+              str << Rim::Paint.theme[:status_line].call(self)
             end # line < buffer_size && row < endRow
           end # @width >= 5
 
