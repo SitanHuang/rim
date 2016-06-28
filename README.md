@@ -1,7 +1,9 @@
 # rim, yet another vim-like editor
 
 [![Join the chat at https://gitter.im/SitanHuang/rim](https://badges.gitter.im/SitanHuang/rim.svg)](https://gitter.im/SitanHuang/rim?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-100% implemented in ruby
+**100% implemented in ruby**
+
+![](https://raw.githubusercontent.com/SitanHuang/rim/master/src/screenshot.png)
 
 ## pros
 1. no need to learn vimL to customize
@@ -20,15 +22,15 @@
 - **Q:**
 
   Do you uses curses or ncurses?
-  
+
   **A:**
-  
+
   No, everything involves with painting in a terminal is implemented by myself.
-  
+
 - **Q:**
 
   Why you create this thing?
-  
+
   **A:**
   - It's fun to make an editor
   - To improve Vim's customizations
