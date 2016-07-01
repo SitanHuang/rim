@@ -1,6 +1,12 @@
 # encoding: utf-8
-require_relative 'term/control.rb'
-require_relative 'paint.rb'
+require_relative 'init/init'
+require_relative 'init/main_handler'
+require_relative 'init/io_handler'
+
+require_relative 'io/files'
+
+require_relative 'term/control'
+require_relative 'paint'
 
 module Rim
   module Core
@@ -15,41 +21,14 @@ module Rim
       whole: '0.0.04-preDEV'
     }
 
-    # arguments parser
-    def self.optParser
-      return OptionParser.new do |parser|
-        parser.banner = "rim #{@version[:whole]}"
-        parser.separator "Usage: rim [options]"
-
-        parser.on "-i", "--info", "Prints out enviromental infos" do
-          puts\
-"
-Version: rim #{@version[:whole]}
-Working directory: #{$PWD}
-User home directory: #{$HOME}
-Install directory: #{$SRC}
-Executable file: #{$EXEC}
-".strip
-
-          exit
-        end
-
-        parser.on "-v", "--version", "Prints out the version(only)" do
-          puts @version[:whole]
-          exit
-        end
-
-        parser.on "-h", "--help", "Prints out this help" do
-          puts parser
-          exit
-        end
-      end
-    end
-
     # the actual startup to the editor
     def self.startup
-      Paint.init
-      Paint.refresh
+      Rim.init
+    end
+
+    # init core stuff
+    def self.init_core
+      Rim.io_thread = Thread.new(&Rim.io_handler)
     end
   end
 

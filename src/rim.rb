@@ -16,9 +16,6 @@ end
 
 require_relative 'core/core.rb'
 
-parser = Rim::Core.optParser
-parser.parse!
-
 Rim::Core.startup
 
 # never reach here!
