@@ -19,8 +19,8 @@ module Rim
                         rgb.from_hex('#FFFFFF').ansi_fg,
           line: T.default
         },
-        status_line: Proc.new { |pane|
-          theme_default_status_line pane
+        status_line: lambda { |pane|
+          return theme_default_status_line pane
         }
       }
     end
