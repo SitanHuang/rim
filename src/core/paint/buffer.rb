@@ -42,7 +42,8 @@ module Rim
         if @file.empty?
           '[ New File ]'
         else
-          @file + (@saved ? '' : '+')
+          captures = @file.match(/([^\/]+\/)*([^\/]+\/){0,1}([^\/]+)/).captures
+          "#{captures.last(3)[0]}#{captures.last}" + (@saved ? '' : '+')
         end
       end
 
@@ -52,3 +53,5 @@ module Rim
     end
   end
 end
+
+require_relative '../io/buffer_edit'

@@ -1,6 +1,6 @@
 # encoding: utf-8
 require_relative 'theme.rb'
-require_relative 'paint/pane.rb'
+require_relative 'paint/pane'
 
 module Rim
   module Paint
@@ -20,11 +20,6 @@ module Rim
     def self.init
       loadThemes
       refresh
-      @panes << Pane.new(
-        row: 1, col: 1,
-        width: win_col,
-        height: win_row
-      )
       onWindowResize
       # paint everything
       paint
@@ -69,6 +64,7 @@ module Rim
       @panes.each_with_index do |pane, index|
         return index if pane.focused
       end
+      nil
     end
 
     def self.onWindowResize

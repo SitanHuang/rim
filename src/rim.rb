@@ -9,6 +9,10 @@ $HOME = ENV['HOME']
 $SRC = File.dirname(__FILE__)
 $EXEC = File.expand_path $0
 
+def pwd
+  $PWD
+end
+
 if __FILE__ == $0
   puts "Can you do that? no."
   exit 1

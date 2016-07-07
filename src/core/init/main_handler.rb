@@ -1,4 +1,5 @@
 require_relative 'optParser'
+require_relative '../pane_management'
 
 module Rim
   # handle user key inputs
@@ -13,8 +14,19 @@ module Rim
           Rim::IO.file_arg = ARGV.shift
           Rim::IO.extra_args = ARGV
         end
-        p Rim::IO.file_arg
-        p Rim::IO.extra_args
+      rescue StandardError => e
+        puts "#{e}"
+        exit 1
+      end
+
+      begin
+        # ============== open editor ===============
+        edit "#{Rim::IO.file_arg}"
+        Paint.init
+      rescue RimError => e
+        puts e
+        puts "Press ENTER to continue."
+        STDIN.readline
       end
     }
   end

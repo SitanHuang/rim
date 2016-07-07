@@ -7,6 +7,7 @@ require_relative 'io/files'
 
 require_relative 'term/control'
 require_relative 'paint'
+require_relative 'RimError'
 
 module Rim
   module Core

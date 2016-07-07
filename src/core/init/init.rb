@@ -8,6 +8,8 @@ module Rim
 
   def self.init
     Core.init_core
+
+    # ===================
     Rim.main_handler.call
   end
 end

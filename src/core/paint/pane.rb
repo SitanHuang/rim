@@ -85,6 +85,9 @@ module Rim
         @scroll_max_col = @buffer.col
         calculateStartrow
         calculateStartcol
+        calculateStartrow
+        calculateStartcol
+        self
       end
 
       def scroll rowChange
