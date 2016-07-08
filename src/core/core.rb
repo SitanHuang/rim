@@ -30,6 +30,11 @@ module Rim
     # init core stuff
     def self.init_core
       Rim.io_thread = Thread.new(&Rim.io_handler)
+
+      # load plugins
+      Dir["#{$SRC}/plugins/autoload/**/*.rb"].each do |file|
+        require file
+      end
     end
   end
 
