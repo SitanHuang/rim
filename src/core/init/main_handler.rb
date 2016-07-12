@@ -28,6 +28,12 @@ module Rim
         puts "Press ENTER to continue."
         STDIN.readline
       end
+
+      Rim.up = true
+
+      while Rim.up
+        
+      end
     }
   end
 end
