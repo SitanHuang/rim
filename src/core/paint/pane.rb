@@ -37,7 +37,7 @@ module Rim
         @start_row = 0
         @start_col = 0
         @scroll_max_col = @buffer.col
-        @mode = 'normal'
+        @mode = NormalMode.new.name
         init.each_pair do |key, val|
           instance_variable_set '@' + key.to_s, val
         end

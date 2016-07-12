@@ -6,8 +6,9 @@ require_relative 'init/io_handler'
 require_relative 'io/files'
 
 require_relative 'term/control'
-require_relative 'paint'
 require_relative 'RimError'
+require_relative 'modes'
+require_relative 'paint'
 
 module Rim
   module Core
@@ -31,7 +32,7 @@ module Rim
     def self.init_core
       Rim.io_thread = Thread.new(&Rim.io_handler)
 
-      # load plugins
+      # load plugins, including core stuffs
       Dir["#{$SRC}/plugins/autoload/**/*.rb"].each do |file|
         require file
       end
