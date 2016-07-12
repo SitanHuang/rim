@@ -32,7 +32,8 @@ module Rim
             puts "\nPress ENTER to continue"
             gets
           when "q"
-            
+            pane = Rim::Paint.panes[Paint.focusedPane]
+            Rim::Core.modes[pane.mode].handlers[:exit].call pane
         end
         # @panes[Paint.focusedPane].buffer.lines[@panes[Paint.focusedPane].start_row] =
         # "#{@panes[Paint.focusedPane].buffer.row}"

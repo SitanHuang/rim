@@ -32,7 +32,11 @@ module Rim
       Rim.up = true
 
       while Rim.up
-        
+        sleep 0.5
+        if Rim::Paint.panes.empty?
+          Rim.up = false
+          $stdin.close
+        end
       end
     }
   end
