@@ -4,10 +4,8 @@ module Rim
   module Core
     class << self
       attr_accessor :modes
-      # keeps currentKeyChain private
     end
     @modes = {}
-    @currentKeyChain = nil
 
     def self.register_mode mode
       @modes[mode.name] = mode
@@ -16,11 +14,14 @@ module Rim
     class Mode
       attr_accessor :name
       attr_accessor :handlers
+      attr_accessor :currentKeyChain
+
 
       # name is string
       def initialize name
         @name = name
         @handlers = {}
+        @currentKeyChain = nil
       end
 
       # type = symbol

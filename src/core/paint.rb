@@ -45,7 +45,7 @@ module Rim
     end
 
     def self.paint
-      Rim::Paint::refresh Rim::Paint::win_row * 2
+      Rim::Paint::refresh
       str = ''
       str << @theme[:ui][:root]
       @panes.each do |pane|

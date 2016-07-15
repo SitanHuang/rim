@@ -36,7 +36,10 @@ module Rim
         if Rim::Paint.panes.empty?
           Rim.up = false
           $stdin.close
+          Rim::Paint.refresh 100
+          print T.cursor(1,1)
         end
+        Paint.paint
       end
     }
   end

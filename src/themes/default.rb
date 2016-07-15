@@ -26,6 +26,8 @@ module Rim
     end
 
     def self.theme_default_status_line pane
+      mode = Rim::Core.modes[pane.mode]
+
       rgb = RGB.new()
       reset = rgb.from_hex('#3F3F3F').ansi_bg + rgb.from_hex('#FFFFFF').ansi_fg
 
@@ -39,12 +41,22 @@ module Rim
 
       mode_str = ' ' + pane.mode + ' '
       display_name = ' ' + pane.buffer.display_name + ' '
+      keyInfo = ""
+      keyInfo = " Key not found! " if Rim.last_key_status == 3
+      if mode.currentKeyChain != nil
+        childrenInfo = ""
+        mode.currentKeyChain.children.each do |child|
+          childrenInfo += "#{child.key.gsub("\e", "^")}/"
+        end
+        childrenInfo.gsub!(/\/$/, '')
+        keyInfo = " -- #{mode.key.gsub("\e", "^")} mode (#{childrenInfo}) -- "
+      end
 
-      str << rgb.from_hex('#db4437').ansi_bg << rgb.from_hex('#ffffff').ansi_fg << mode_str << reset
-      str << display_name
+      str << rgb.from_hex('#db4437').ansi_bg << rgb.from_hex('#ffffff').ansi_fg << mode_str.upcase << reset
+      str << display_name << keyInfo
 
       pos = " #{pane.buffer.row}:#{pane.buffer.col} "
-      left = pane.width - mode_str.length - display_name.length - pos.length
+      left = pane.width - mode_str.length - display_name.length - keyInfo.length - pos.length
       if left > 1
         str << rgb.from_hex('#db4437').ansi_fg << ' ' * left << pos << reset
       end

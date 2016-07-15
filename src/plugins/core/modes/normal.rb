@@ -1,22 +1,29 @@
 class NormalMode < Rim::Core::Mode
+  include Rim
+
   def initialize
     super 'normal'
-    register_handler(:exit, Proc.new do |pane, force|
+
+    @currentKeyChain = nil
+    @keyChain = KeyChain.new nil, nil
+
+    register_handler(:exit, Proc.new do |mode, pane, force|
+      @currentKeyChain = nil
+
       # TODO: force
       force = false if force == nil
-      puts "\n" * 50
-      puts Rim::Paint.panes
       Rim::Paint.panes.delete pane
-      puts Rim::Paint.panes
-      puts "\n" * 50
+
     end)
-    register_handler(:key, Proc.new do |pane, force|
-      force = false if force == nil
-      puts "\n" * 50
-      puts Rim::Paint.panes
-      Rim::Paint.panes.delete pane
-      puts Rim::Paint.panes
-      puts "\n" * 50
+    register_handler(:key, Proc.new do |mode, pane, key|
+      status = -1
+      if @currentKeyChain != nil
+        status = @currentKeyChain.handle key
+        @currentKeyChain = nil if status != 2
+      else
+        status = @keyChain.handle key
+      end
+      status
     end)
   end
 end

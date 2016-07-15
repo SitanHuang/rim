@@ -22,7 +22,7 @@ module Rim
           return 1
         else
           # no handler, go child
-          Rim.currentKeyChain = self
+          @currentKeyChain = self
           return 2
         end
       else # if
