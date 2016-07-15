@@ -30,6 +30,7 @@ module Rim
 
     # init core stuff
     def self.init_core
+      Thread.abort_on_exception=true
       Rim.io_thread = Thread.new(&Rim.io_handler)
 
       # load plugins, including core stuffs
