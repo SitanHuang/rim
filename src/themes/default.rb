@@ -27,6 +27,7 @@ module Rim
 
     def self.theme_default_status_line pane
       mode = Rim::Core.modes[pane.mode]
+      replaceKey = lambda {|key| key.gsub("\e", "^").gsub("\n", "\\n").gsub("\r", "\\r").gsub("\t", "\\t")}
 
       rgb = RGB.new()
       reset = rgb.from_hex('#3F3F3F').ansi_bg + rgb.from_hex('#FFFFFF').ansi_fg
@@ -46,10 +47,10 @@ module Rim
       if mode.currentKeyChain != nil
         childrenInfo = ""
         mode.currentKeyChain.children.each do |child|
-          childrenInfo += "#{child.key.gsub("\e", "^")}/"
+          childrenInfo += "#{replaceKey.call child.key}/"
         end
         childrenInfo.gsub!(/\/$/, '')
-        keyInfo = " -- #{mode.key.gsub("\e", "^")} mode (#{childrenInfo}) -- "
+        keyInfo = " -- #{replaceKey.call mode.currentKeyChain.key} mode (#{childrenInfo}) -- "
       end
 
       str << rgb.from_hex('#db4437').ansi_bg << rgb.from_hex('#ffffff').ansi_fg << mode_str.upcase << reset

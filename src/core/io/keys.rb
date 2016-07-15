@@ -15,14 +15,14 @@ module Rim
     # 1- handler called, done
     # 2- child with key found, but no handler, wait for sub offsprings
     # 3- no child with key found
-    def handle key
+    def handle key, data, mode
       if @key == key
         if @handler
-          @handler.call
+          @handler.call data, mode
           return 1
         else
           # no handler, go child
-          @currentKeyChain = self
+          mode.currentKeyChain = self
           return 2
         end
       else # if
@@ -30,7 +30,7 @@ module Rim
         @children.each do |child|
           if child.key == key
             # let children decide
-            return child.handle key
+            return child.handle key, data, mode
           end
         end
         return 3

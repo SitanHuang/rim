@@ -5,7 +5,7 @@ class NormalMode < Rim::Core::Mode
     super 'normal'
 
     @currentKeyChain = nil
-    @keyChain = KeyChain.new nil, nil
+    @keyChain = KeyChain.new nil, 
 
     register_handler(:exit, Proc.new do |mode, pane, force|
       @currentKeyChain = nil
@@ -18,10 +18,10 @@ class NormalMode < Rim::Core::Mode
     register_handler(:key, Proc.new do |mode, pane, key|
       status = -1
       if @currentKeyChain != nil
-        status = @currentKeyChain.handle key
+        status = @currentKeyChain.handle key, {pane: pane}, self
         @currentKeyChain = nil if status != 2
       else
-        status = @keyChain.handle key
+        status = @keyChain.handle key, {pane: pane}, self
       end
       status
     end)
