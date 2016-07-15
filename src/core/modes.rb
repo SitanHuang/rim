@@ -1,9 +1,13 @@
+require_relative 'io/keys'
+
 module Rim
   module Core
     class << self
       attr_accessor :modes
+      # keeps currentKeyChain private
     end
     @modes = {}
+    @currentKeyChain = nil
 
     def self.register_mode mode
       @modes[mode.name] = mode
