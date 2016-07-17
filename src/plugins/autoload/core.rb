@@ -9,3 +9,4 @@
 # WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 require_relative '../core/modes/normal.rb'
+require_relative '../core/modes/insert.rb'
