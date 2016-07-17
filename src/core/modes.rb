@@ -29,6 +29,11 @@ module Rim
       def register_handler type, handler
         @handlers[type] = handler
       end
+
+      # for plugin injections
+      def inject proc
+        raise RimError, "#{@name}##{inject} not implemented!"
+      end
     end
   end
 end

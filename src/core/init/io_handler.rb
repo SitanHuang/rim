@@ -22,9 +22,7 @@ module Rim
         else
           @last_key_status = mode.handlers[:key].call mode, pane, ch
         end
-        # @panes[Paint.focusedPane].buffer.lines[@panes[Paint.focusedPane].start_row] =
-        # "#{@panes[Paint.focusedPane].buffer.row}"
-        # @panes[Paint.focusedPane].draw! if @panes[Paint.focusedPane]
+        Paint.paint
       end
     }
   end

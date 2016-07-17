@@ -1,11 +1,13 @@
+require_relative 'cursor'
+
 class NormalMode < Rim::Core::Mode
-  include Rim
+  include Rim, DefaultCursorHandlers
 
   def initialize
     super 'normal'
 
     @currentKeyChain = nil
-    @keyChain = KeyChain.new nil, 
+    @keyChain = KeyChain.new nil, nil
 
     register_handler(:exit, Proc.new do |mode, pane, force|
       @currentKeyChain = nil
@@ -25,6 +27,12 @@ class NormalMode < Rim::Core::Mode
       end
       status
     end)
+
+    inject_default_cursor_handlers
+  end
+
+  def inject proc
+    instance_eval(&proc)
   end
 end
 
