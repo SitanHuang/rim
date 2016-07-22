@@ -40,7 +40,7 @@ module Rim
 
       def display_name
         if @file.empty?
-          '[ New File ]'
+          "[ New File ]#{@saved ? '' : '+'}"
         else
           captures = @file.match(/([^\/]+\/)*([^\/]+\/){0,1}([^\/]+)/).captures
           "#{captures.last(3)[0]}#{captures.last}" + (@saved ? '' : '+')

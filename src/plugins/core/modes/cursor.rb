@@ -22,6 +22,13 @@ module DefaultCursorHandlers
         pane = data[:pane]
         pane.moveCol(1)
       }, "\e[C")
+    })
+    inject_only_scroll
+    inject_only_delete
+  end
+
+  def inject_only_scroll
+    inject(Proc.new {
       @keyChain << KeyChain.new(Proc.new { |data, mode|
         pane = data[:pane]
         pane.scroll(-$scrollRows).moveRow(-$scrollRows)
@@ -30,6 +37,18 @@ module DefaultCursorHandlers
         pane = data[:pane]
         pane.scroll($scrollRows).moveRow($scrollRows)
       }, "\e[6~")
+    })
+  end
+  def inject_only_delete
+    inject(Proc.new {
+      @keyChain << KeyChain.new(Proc.new { |data, mode|
+        pane = data[:pane]
+        pane.buffer.backspace
+      }, "\u007f")
+      @keyChain << KeyChain.new(Proc.new { |data, mode|
+        pane = data[:pane]
+        pane.buffer.delete
+      }, "\e[3~")
     })
   end
 end

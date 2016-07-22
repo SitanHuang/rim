@@ -3,8 +3,10 @@ module Rim
   # returns a lambda to run in another thread
   class << self
     attr_accessor :last_key_status
+    attr_accessor :last_key
   end
   @last_key_status = -1
+  @last_key = ''
 
   def self.io_handler
     return lambda {
@@ -20,6 +22,7 @@ module Rim
           mode.handlers[:exit].call mode, pane
           @last_key_status = 1
         else
+          @last_key = ch
           @last_key_status = mode.handlers[:key].call mode, pane, ch
         end
         Paint.paint

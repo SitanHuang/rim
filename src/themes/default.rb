@@ -27,7 +27,14 @@ module Rim
 
     def self.theme_default_status_line pane
       mode = Rim::Core.modes[pane.mode]
-      replaceKey = lambda {|key| key.gsub("\e", "^").gsub("\n", "\\n").gsub("\r", "\\r").gsub("\t", "\\t")}
+      replaceKey = lambda {
+        |key|
+        key = key.gsub("\e", "^").gsub("\n", "\\n").gsub("\r", "\\r").gsub("\t", "\\t")
+        T::DISPLAY_MAPPING.each do |k, v|
+          key = key.gsub(k, v)
+        end
+        key
+      }
 
       rgb = RGB.new()
       reset = rgb.from_hex('#3F3F3F').ansi_bg + rgb.from_hex('#FFFFFF').ansi_fg
@@ -43,7 +50,7 @@ module Rim
       mode_str = ' ' + pane.mode + ' '
       display_name = ' ' + pane.buffer.display_name + ' '
       keyInfo = ""
-      keyInfo = " Key not found! " if Rim.last_key_status == 3
+      keyInfo = " Key not found (#{replaceKey.call Rim.last_key}) " if Rim.last_key_status == 3
       if mode.currentKeyChain != nil
         childrenInfo = ""
         mode.currentKeyChain.children.each do |child|
