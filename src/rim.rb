@@ -20,6 +20,7 @@ end
 
 require_relative 'core/core.rb'
 
-Rim::Core.startup
-
+if $0.end_with? 'rim'
+  Rim::Core.startup
+end
 # never reach here!

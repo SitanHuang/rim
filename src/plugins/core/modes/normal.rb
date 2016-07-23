@@ -14,7 +14,7 @@ class NormalMode < Rim::Core::Mode
 
       # TODO: force
       force = false if force == nil
-      Rim::Paint.panes.delete pane
+      Rim.delete_pane pane
 
     end)
     register_handler(:key, Proc.new do |mode, pane, key|

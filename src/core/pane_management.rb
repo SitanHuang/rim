@@ -1,13 +1,19 @@
+require_relative 'paint/split.rb'
+
 module Rim
+  class << self
+    attr_accessor :splitScreen
+  end
+
   def self.edit filepath = ''
     filepath = '' if not filepath
     paneNum = Paint.focusedPane
     if not paneNum
-      Paint.panes << Paint::Pane.new(
+      Rim.splitScreen = Paint::Split.new(Paint::Pane.new(
         row: 1, col: 1,
         width: Paint.win_col,
         height: Paint.win_row
-      )
+      ))
       paneNum = Paint.focusedPane
     end
     pane = Paint.panes[paneNum]
@@ -19,5 +25,9 @@ module Rim
       raise RimError, "Cannot read FILE: #{filepath}" if saved and !File.file?(filepath)
       pane.buffer.edit(filepath, saved)
     end
+  end
+
+  def self.delete_pane pane
+    Rim.splitScreen.delete pane if Rim.splitScreen
   end
 end

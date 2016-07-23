@@ -9,12 +9,10 @@ module Rim
 
     class << self
       attr_accessor :theme
-      attr_accessor :panes
       attr_accessor :old_col
       attr_accessor :old_row
     end
     @theme = {}
-    @panes = []
 
     # init from Core#startup
     def self.init
@@ -26,7 +24,7 @@ module Rim
     end
 
     def self.focusedPane
-      @panes.each_with_index do |pane, index|
+      panes.each_with_index do |pane, index|
         return index if pane.focused
       end
       nil
@@ -48,10 +46,15 @@ module Rim
       Rim::Paint::refresh
       str = ''
       str << @theme[:ui][:root]
-      @panes.each do |pane|
+      panes.each do |pane|
         str << pane.draw
       end
       print str
+    end
+
+    def self.panes
+      return Rim.splitScreen.toPanes if  Rim.splitScreen
+      return []
     end
 
   end
