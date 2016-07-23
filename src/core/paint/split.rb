@@ -16,6 +16,14 @@ module Rim
         @type = NSPLIT
       end
 
+      def resize rowChange, colChange
+        if @type == NSPLIT
+          @pane.width += colChange
+          @pane.height += rowChange
+        end
+        # TODO
+      end
+
       def col
         return @pane.col if @type == NSPLIT
         return @split1.col

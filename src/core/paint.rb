@@ -18,9 +18,11 @@ module Rim
     def self.init
       loadThemes
       refresh
+      @old_col, @old_row = win_col, win_row
       onWindowResize
       # paint everything
       paint
+
     end
 
     def self.focusedPane
@@ -31,7 +33,10 @@ module Rim
     end
 
     def self.onWindowResize
-      # TODO
+      rowChange = win_row - @old_row
+      colChange = win_col - @old_col
+
+      Rim.splitScreen.resize rowChange, colChange
 
       @old_col, @old_row = win_col, win_row
     end
