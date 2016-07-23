@@ -25,6 +25,7 @@ module Rim
         else
           @lines[@row - 1].insert(@col, char)
           @col += 1
+          @col += $tab_width - 1 if char == " " * $tab_width
         end
         @saved = false
         self

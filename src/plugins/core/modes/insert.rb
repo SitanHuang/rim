@@ -47,11 +47,11 @@ class InsertMode < Rim::Core::Mode
 #     |    '\u3400'..'\u3d2d'
 #     |    '\u4e00'..'\u9fff'
 # | '\uf900'..'\ufaff'
-      skey = key.gsub("\e", "^").gsub("\t", "\\t")
+      skey = key.gsub("\e", "^")
       T::DISPLAY_MAPPING.each do |k, v|
         skey = skey.gsub(k, v)
       end
-      if status == 3 && (skey.length == 1 || key.start_with?("\r"))
+      if status == 3 && (skey.length == 1 || key.start_with?("\r") || key == "\t")
         pane.buffer.insert key
         status = 1
       end
