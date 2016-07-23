@@ -9,10 +9,14 @@ module Rim
 
     class << self
       attr_accessor :theme
+      attr_accessor :msg
       attr_accessor :old_col
       attr_accessor :old_row
     end
     @theme = {}
+    @msg = nil
+
+    @msgDurationStart = 0
 
     # init from Core#startup
     def self.init
@@ -42,19 +46,37 @@ module Rim
     end
 
     def self.refresh n = 0
-      print "\n" * n
+      print "\n" * n if n > 0
       print T.clear
-      print T.cursor(0, 0)
+      print T.cursor(1, 1)
     end
 
     def self.paint
       Rim::Paint::refresh
-      str = ''
+      str = T.cursor(1,1)
       str << @theme[:ui][:root]
       panes.each do |pane|
         str << pane.draw
       end
+      if @msg != nil and !@msg.empty?
+        str << T.cursor(win_row, 1) << @msg
+        if Time.now.to_i - @msgDurationStart >= 1
+          hideMsg
+        end
+      end
       print str
+    end
+
+    def self.hideMsg
+      @msg = ''
+      @msgDurationStart = 0
+      Rim.splitScreen.resize(win_row - Rim.splitScreen.endRow, 0)
+    end
+
+    def self.showMsg msg = ""
+      @msg = msg
+      @msgDurationStart = Time.now.to_i
+      Rim.splitScreen.resize(-1, 0)
     end
 
     def self.panes

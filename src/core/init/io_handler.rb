@@ -21,6 +21,8 @@ module Rim
         if ch == "\e"
           mode.handlers[:exit].call mode, pane
           @last_key_status = 1
+        elsif ch == "\x1c"
+          Process.kill 9, Process.pid
         else
           @last_key = ch
           @last_key_status = mode.handlers[:key].call mode, pane, ch
