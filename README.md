@@ -2,17 +2,20 @@
 
 [![Join the chat at https://gitter.im/SitanHuang/rim](https://badges.gitter.im/SitanHuang/rim.svg)](https://gitter.im/SitanHuang/rim?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## TODO
+1. CommandMode initial
 
+### We welcome everyone to chat in gitter or open issues for discussions!
 
 **100% implemented in ruby**
 
 ![](https://raw.githubusercontent.com/SitanHuang/rim/master/src/screenshot.png)
 
 ## pros
-1. no need to learn vimL to customize
-2. lot library compared to vimL and a lot easier
+1. easy customization
+2. massive library collections with ruby gems
 3. more supports of 256 colors
-4. other stuff that will be more convenient
+4. much more good default settings
 5. makes development of an editor just a lot easier
 
 ## cons
