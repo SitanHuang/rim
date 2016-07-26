@@ -74,6 +74,7 @@ module Rim
     end
 
     def self.showMsg msg = ""
+      hideMsg
       @msg = msg
       @msgDurationStart = Time.now.to_i
       Rim.splitScreen.resize(-1, 0)
