@@ -42,6 +42,7 @@ module Rim
           print T.cursor(1,1)
           return
         end
+        system 'clear'
         Paint.paint
         Paint.onWindowResize if sec_count % 5 == 0
 
