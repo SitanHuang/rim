@@ -1,4 +1,5 @@
-require_relative 'buffer.rb'
+require_relative 'buffer'
+require_relative '../cmd'
 
 module Rim
   module Paint
@@ -119,9 +120,10 @@ module Rim
 
       def calculateStartcol
         buffer_size = @buffer.lines.size
-        max_line_length = $numbers_min_space + 1 # spaces
-        max_line_length += buffer_size.to_s.length + sep_width# numbers
-        max_line_length = @width - max_line_length
+        max_line_length = 0
+        max_line_length += $numbers_min_space + 1 if $numbers # spaces
+        max_line_length += buffer_size.to_s.length if $numbers# numbers
+        max_line_length = @width - max_line_length + sep_width
         if @start_col + max_line_length - 2\
             < @buffer.col
           @start_col +=5
@@ -177,9 +179,10 @@ module Rim
               end
               # == paint lines ==
               # calculate space left for content
-              max_line_length = $numbers_min_space + 1 # spaces
-              max_line_length += buffer_size.to_s.length + sep_width# numbers
-              max_line_length = @width - max_line_length
+              max_line_length = 0
+              max_line_length += $numbers_min_space + 1 if $numbers # spaces
+              max_line_length += buffer_size.to_s.length if $numbers# numbers
+              max_line_length = @width - max_line_length + sep_width
 
               # we need :to_do syntax highlighting next
               # like add attributes at row:col in Buffer
@@ -213,8 +216,9 @@ module Rim
         if @focused && width >= 5
           # cursor row
           crow = @row + (@buffer.cursor_row - 1 - @start_row)
-          ccol = @col - 1 + $numbers_min_space + buffer_size.to_s.length + sep_width
-          ccol += @buffer.col + 2 - @start_col
+          ccol = @col - 1 + sep_width
+          ccol += $numbers_min_space + buffer_size.to_s.length + 1 if $numbers
+          ccol += @buffer.col + 1 - @start_col
           str << T.cursor(crow, ccol)
         elsif @focused && width < 5
           str << T.cursor(@row, @col)
@@ -228,6 +232,16 @@ module Rim
       $numbers = true # line numbers
       $numbers_min_space = 1 # minimum space before number
       $tab_width = 4
+
+      Cmd::COMMAND_HANDLERS['nu'] = Cmd::COMMAND_HANDLERS['number'] = lambda { |force, trailing|
+        raise RimError.new("Extra trailng args - #{trailng}") if trailing and trailing.length > 0
+        $numbers = !force
+      }
+
+      Cmd::COMMAND_HANDLERS['tabw'] = Cmd::COMMAND_HANDLERS['tw'] = Cmd::COMMAND_HANDLERS['tabwidth'] = lambda { |force, trailing|
+        raise RimError.new("No trailng args - #{trailng}") if !trailing or trailing.empty?
+        $tab_width = trailing.strip.to_i
+      }
     end
   end
 end

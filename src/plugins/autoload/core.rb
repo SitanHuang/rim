@@ -8,5 +8,7 @@
 # WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-require_relative '../core/modes/normal.rb'
-require_relative '../core/modes/insert.rb'
+require_relative '../core/panes/cmd_pane'
+
+require_relative '../core/modes/normal'
+require_relative '../core/modes/insert'
