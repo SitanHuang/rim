@@ -4,7 +4,7 @@ require_relative 'init/main_handler'
 require_relative 'init/io_handler'
 
 require_relative 'io/files'
-
+require_relative 'cmd'
 require_relative 'term/control'
 require_relative 'RimError'
 require_relative 'modes'
