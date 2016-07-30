@@ -27,6 +27,9 @@ module Rim
           @last_key = ch
           @last_key_status = mode.handlers[:key].call mode, pane, ch
         end
+
+        system 'clear'
+        Paint.paint
       end
     }
   end
