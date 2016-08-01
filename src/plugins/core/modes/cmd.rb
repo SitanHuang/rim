@@ -18,7 +18,7 @@ class CmdMode < InsertMode
       @currentKeyChain = nil
 
       force = false if force == nil
-      Rim.delete_pane(pane)
+      $cmd_mode_pane = nil
 
       Paint.showMsg "Command discarded"
 
@@ -72,12 +72,13 @@ end
 normalMode.inject(Proc.new do
   @keyChain << Rim::KeyChain.new(Proc.new { |data, mode|
     pane = data[:pane]
-    Rim::splitPane(Rim::Paint::Split::HSPLIT, CmdModePane.new(
+    $cmd_mode_pane = CmdModePane.new(
       row: Rim::Paint.win_row, col: 1,
       width: Rim::Paint.win_col,
-      height: 1
-    ))
-    pane.focused = false
+      height: 1,
+      mode: 'cmd'
+    )
+    pane.focused = true
   }, ":")
 end)
 

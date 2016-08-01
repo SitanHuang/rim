@@ -15,6 +15,7 @@ module Rim
       while Rim.up
         ch = read_char
         pane = Rim::Paint.panes[Paint.focusedPane]
+        pane = $cmd_mode_pane if $cmd_mode_pane
         sMode = pane.mode
         mode = Core.modes[sMode]
 
