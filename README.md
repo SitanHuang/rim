@@ -3,7 +3,9 @@
 [![Join the chat at https://gitter.im/SitanHuang/rim](https://badges.gitter.im/SitanHuang/rim.svg)](https://gitter.im/SitanHuang/rim?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## TODO
-1. CommandMode initial
+1. CommandMode(later CmdMode) initial - done
+2. CmdMode exec & parse commands without autocomplete
+3. Autocomplete adapters for pane
 
 ### We welcome everyone to chat in gitter or open issues for discussions!
 
