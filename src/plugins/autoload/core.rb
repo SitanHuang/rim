@@ -12,3 +12,4 @@ require_relative '../core/panes/cmd_pane'
 
 require_relative '../core/modes/normal'
 require_relative '../core/modes/insert'
+require_relative '../core/modes/cmd'

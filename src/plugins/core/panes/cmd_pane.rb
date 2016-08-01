@@ -13,14 +13,14 @@ class CmdModePane < Rim::Paint::Pane
     self
   end
 
+  def initialize hash
+    super hash
+    @mode = 'cmd'
+  end
+
   def calculateStartrow
-    if @start_row + @height < @buffer.row
-      @start_row = @buffer.row - (@height - @height / 4)
-    elsif @start_row >= @buffer.row
-      @start_row = @buffer.row - (@height - @height / 4)
-    end
-    @start_row = 0 if @start_row < 0
-    @buffer.col = 0 if @buffer.col < 0
+    @start_row = 0
+    @buffer.col = 0
     self
   end
 
@@ -80,3 +80,9 @@ class CmdModePane < Rim::Paint::Pane
     return str
   end
 end
+
+$cmd_mode_pane = nil
+
+Rim::Paint::AFTER_PAINT_HANDLERS[:cmd_mode_pane] = lambda {
+  $cmd_mode_pane.draw! if $cmd_mode_pane
+}

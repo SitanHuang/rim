@@ -4,6 +4,8 @@ require_relative 'paint/pane'
 
 module Rim
   module Paint
+    AFTER_PAINT_HANDLERS = {}
+
     def self.win_row; return STDIN.winsize[0]; end
     def self.win_col; return STDIN.winsize[1]; end
 
@@ -12,6 +14,7 @@ module Rim
       attr_accessor :msg
       attr_accessor :old_col
       attr_accessor :old_row
+      attr_accessor :msgDurationStart
     end
     @theme = {}
     @msg = nil
@@ -65,12 +68,17 @@ module Rim
         end
       end
       print str
+
+      AFTER_PAINT_HANDLERS.values.each { |handler|
+        handler.call
+      }
     end
 
     def self.hideMsg
       @msg = ''
       @msgDurationStart = 0
       Rim.splitScreen.resize(win_row - Rim.splitScreen.endRow, 0)
+      Paint.msgDurationStart == 0
     end
 
     def self.showMsg msg = ""

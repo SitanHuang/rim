@@ -1,13 +1,15 @@
+require_relative '../panes/cmd_pane'
 require_relative 'cursor'
 require_relative 'normal'
+require_relative 'insert'
 
 normalMode = Rim::Core.modes[NormalMode.new.name]
 
-class InsertMode < Rim::Core::Mode
+class CmdMode < InsertMode
   include Rim, DefaultCursorHandlers
 
-  def initialize string = 'insert'
-    super string
+  def initialize
+    super 'cmd'
 
     @currentKeyChain = nil
     @keyChain = KeyChain.new nil, nil
@@ -16,9 +18,9 @@ class InsertMode < Rim::Core::Mode
       @currentKeyChain = nil
 
       force = false if force == nil
-      pane.mode = NormalMode.new.name
+      Rim.delete_pane(pane)
 
-      pane.moveCol(-1).moveRow 0
+      Paint.showMsg "Command discarded"
 
     end)
 
@@ -39,14 +41,13 @@ class InsertMode < Rim::Core::Mode
       T::DISPLAY_MAPPING.each do |k, v|
         skey = skey.gsub(k, v)
       end
-      if status == 3 && (skey.length == 1 || key.start_with?("\r") || key == "\t")
+      if status == 3 && (skey.length == 1 || key == "\t")
         pane.buffer.insert key
         status = 1
       end
       status
     end)
 
-    inject_only_scroll
     inject_only_delete
 
     @keyChain << KeyChain.new(Proc.new { |data, mode|
@@ -66,60 +67,22 @@ class InsertMode < Rim::Core::Mode
       moveCol(1, pane)
     }, "\e[C")
   end
-
-  def moveRow rowChange, pane
-    buffer_size = pane.buffer.lines.size
-    pane.buffer.row += rowChange
-    pane.buffer.row = 1 if pane.buffer.row < 1
-    pane.buffer.row = buffer_size if pane.buffer.row > buffer_size
-    pane.buffer.col = pane.scroll_max_col
-    if pane.buffer.col >= pane.buffer.lines[pane.buffer.row - 1].length
-      pane.buffer.col = pane.buffer.lines[pane.buffer.row - 1].length
-    end
-    pane.buffer.col = 0 if pane.buffer.col < 0
-    pane.calculateStartrow
-    pane.calculateStartcol
-  end
-
-  def moveCol colChange, pane
-    pane.buffer.col += colChange
-    if pane.buffer.col > pane.buffer.lines[pane.buffer.row - 1].length
-      if pane.buffer.lines[pane.buffer.row]
-        pane.buffer.row += 1
-        pane.buffer.col = 0
-      else
-        pane.buffer.col = pane.buffer.lines[pane.buffer.row - 1].length
-      end
-    elsif pane.buffer.col < 0
-      if pane.buffer.row - 1 > 0
-        pane.buffer.row -= 1
-        pane.buffer.col = pane.buffer.lines[pane.buffer.row - 1].length
-      else
-        pane.buffer.col = 0
-      end
-    end
-    pane.buffer.col = 0 if pane.buffer.col < 0
-    pane.scroll_max_col = pane.buffer.col
-    pane.calculateStartrow
-    pane.calculateStartcol
-    pane.calculateStartrow
-    pane.calculateStartcol
-  end
-
-  def inject proc
-    instance_eval(&proc)
-  end
 end
 
 normalMode.inject(Proc.new do
   @keyChain << Rim::KeyChain.new(Proc.new { |data, mode|
     pane = data[:pane]
-    pane.mode = 'insert'
-  }, "i")
+    Rim::splitPane(Rim::Paint::Split::HSPLIT, CmdModePane.new(
+      row: Rim::Paint.win_row, col: 1,
+      width: Rim::Paint.win_col,
+      height: 1
+    ))
+    pane.focused = false
+  }, ":")
 end)
 
 Rim::Core.modes[NormalMode.new.name] = normalMode
 
-mode = InsertMode.new
+mode = CmdMode.new
 
 Rim::Core.register_mode mode

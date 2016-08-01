@@ -27,6 +27,23 @@ module Rim
     end
   end
 
+  def self.splitPane type, pane
+    split = findFocusedSplit @splitScreen
+    split.split type, pane
+  end
+
+  def self.findFocusedSplit split
+    if split.type == Paint::Split::NSPLIT
+      return split if split.pane.focused
+      return nil
+    else
+      result = findFocusedSplit split.split1
+      return result if result
+      result = findFocusedSplit split.split2
+      return result if result
+    end
+  end
+
   def self.delete_pane pane
     Rim.splitScreen.delete pane if Rim.splitScreen
   end

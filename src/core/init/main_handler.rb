@@ -34,7 +34,7 @@ module Rim
       sec_count = 0
 
       while Rim.up
-        sleep 0.5
+        sleep 0.1
         if Rim::Paint.panes.empty?
           Rim.up = false
           $stdin.close
@@ -42,12 +42,14 @@ module Rim
           print T.cursor(1,1)
           return
         end
-        system 'clear'
-        Paint.paint
-        Paint.onWindowResize if sec_count % 5 == 0
+        if Paint.old_col != Paint.win_col or Paint.old_row != Paint.win_row or sec_count % 5 == 0
+          Paint.onWindowResize
+          system 'clear'
+          Paint.paint
+        end
 
-        sec_count += 100
-        sec_count = 0 if sec_count == 10
+        sec_count += 1
+        sec_count = 0 if sec_count > 10
       end
     }
   end
