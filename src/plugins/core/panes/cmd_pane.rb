@@ -20,7 +20,6 @@ class CmdModePane < Rim::Paint::Pane
 
   def calculateStartrow
     @start_row = 0
-    @buffer.col = 0
     self
   end
 
@@ -41,15 +40,14 @@ class CmdModePane < Rim::Paint::Pane
       # fill gaps and reset for other
       # str << (@width < 5 ? '@' : ' ') * width
       str << ' ' * @width
-      str << T::cursor(row, @col)
+      str << T::cursor(row, @col) << ':'
       # pane separator if
       # if more line in buffer
       if line < buffer_size
         # if line numbers enabled
         # == paint lines ==
         # calculate space left for content
-        max_line_length = 0
-        max_line_length = @width - max_line_length + sep_width
+        max_line_length = @width - 1 + sep_width
 
         buffer_line = @buffer.lines[line][@start_col..10**10]
         if buffer_line == nil
@@ -68,15 +66,10 @@ class CmdModePane < Rim::Paint::Pane
       line += 1
     end # until
     str << T.default
-    if @focused && width >= 5
-      # cursor row
-      crow = @row + (@buffer.cursor_row - 1 - @start_row)
-      ccol = @col - 1 + sep_width
-      ccol += @buffer.col + 1 - @start_col
-      str << T.cursor(crow, ccol)
-    elsif @focused && width < 5
-      str << T.cursor(@row, @col)
-    end
+    # cursor row
+    crow = @row + (@buffer.cursor_row - 1 - @start_row)
+    ccol = @buffer.col + 2 - @start_col
+    str << T.cursor(crow, ccol)
     return str
   end
 end

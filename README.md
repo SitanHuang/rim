@@ -5,7 +5,14 @@
 ## TODO
 1. CommandMode(later CmdMode) initial - done
 2. CmdMode exec & parse commands without autocomplete
-3. Autocomplete adapters for pane
+3. USBL release
+4. Autocomplete adapters for pane
+
+### USBL release!!!!!!!
+The upcoming release code is called "USBL" which stands for USaBLe, this release
+will be able to read/write and edit files with minimal normal, insert, and command mode.
+
+The release will be published shortly after TODO#2 is done.
 
 ### We welcome everyone to chat in gitter or open issues for discussions!
 
