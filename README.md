@@ -4,15 +4,34 @@
 
 ## TODO
 1. CommandMode(later CmdMode) initial - done
-2. CmdMode exec & parse commands without autocomplete
-3. USBL release
+2. CmdMode exec & parse commands without autocomplete done
+3. USBL release done
 4. Autocomplete adapters for pane
 
 ### USBL release!!!!!!!
-The upcoming release code is called "USBL" which stands for USaBLe, this release
+The current release code is called "USBL" which stands for USaBLe, this release
 will be able to read/write and edit files with minimal normal, insert, and command mode.
 
-The release will be published shortly after TODO#2 is done.
+### Usage
+####Normal Mode
+
+ESC = try to close the current pane
+
+i = enter insert mode
+
+: = enter command mode
+
+####Command Mode
+
+tabw/tw/tabwidth: change tab width
+
+  1 argument: number, example: tw2
+
+nu/number: set line numbers, add ! to disable
+
+w: write file
+
+  0..1 argument: file path
 
 ### We welcome everyone to chat in gitter or open issues for discussions!
 
