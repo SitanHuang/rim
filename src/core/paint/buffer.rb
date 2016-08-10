@@ -17,6 +17,12 @@ module Rim
         update_lines content
       end
 
+      def content line_break = $line_break
+        str = ""
+        @lines.each { |line| str << line << $line_break }
+        return str
+      end
+
       # update lines in this buffer with a new content
       # warning, slow, need to update the whole thing
       def update_lines content
@@ -50,6 +56,8 @@ module Rim
       def cursor_row; row; end
       # cursor column in normal mode
       def cursor_col; col + 1; end
+
+      $line_break = "\n"
     end
   end
 end

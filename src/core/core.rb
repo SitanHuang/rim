@@ -18,9 +18,9 @@ module Rim
 
     # all about versions stuff
     @version = {
-      base: '0.0.04',
-      suffix: 'preDEV',
-      whole: '0.0.04-preDEV'
+      base: '0.1.00',
+      suffix: 'USBL',
+      whole: '0.1.00-USBL'
     }
 
     # the actual startup to the editor

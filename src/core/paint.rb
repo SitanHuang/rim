@@ -49,9 +49,7 @@ module Rim
     end
 
     def self.refresh n = 0
-      print "\n" * n if n > 0
-      print T.clear
-      print T.cursor(1, 1)
+      system 'clear'
     end
 
     def self.paint
@@ -81,10 +79,10 @@ module Rim
       Paint.msgDurationStart == 0
     end
 
-    def self.showMsg msg = ""
+    def self.showMsg msg = "", extra_time = 0
       hideMsg
       @msg = msg
-      @msgDurationStart = Time.now.to_i
+      @msgDurationStart = Time.now.to_i + extra_time
       Rim.splitScreen.resize(-1, 0)
     end
 

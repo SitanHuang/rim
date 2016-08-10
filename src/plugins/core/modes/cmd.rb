@@ -66,6 +66,21 @@ class CmdMode < InsertMode
       pane = data[:pane]
       moveCol(1, pane)
     }, "\e[C")
+
+    @keyChain << KeyChain.new(Proc.new { |data, mode|
+      pane = data[:pane]
+      cmd = pane.buffer.lines.first.strip
+      force = cmd.match(/^[^! 0-9]+!([^!].+)*$/) ? true : false
+      action = cmd.sub(/^([^! 0-9]+)!{0,1}.*$/, '\1')
+      trailing = cmd.sub(/^[^! 0-9]+!{0,1}(.*)$/, '\1')
+      begin
+        raise RimError.new("Not a command - #{action}") unless Rim::Cmd::COMMAND_HANDLERS[action]
+        Rim::Cmd::COMMAND_HANDLERS[action].call force, trailing
+      rescue RimError => e
+        Paint.showMsg("#{RGB.new.from_hex('#FF0000').ansi_bg}#{RGB.new.from_hex('#FFFFFF').ansi_fg}#{e.message}#{T.default}", 1)
+      end
+      $cmd_mode_pane = nil
+    }, "\r")
   end
 end
 

@@ -232,6 +232,26 @@ module Rim
       $numbers = true # line numbers
       $numbers_min_space = 1 # minimum space before number
       $tab_width = 4
+      Cmd::COMMAND_HANDLERS['w'] = lambda { |force, trailing|
+        trailing.strip!
+        pane = Rim::Paint.panes[Paint.focusedPane]
+        content = pane.buffer.content
+        file = pane.buffer.file
+        if file.empty?
+          file = trailing
+          raise RimError.new("File name required") if trailing.empty?
+          pane.buffer.file = file
+        elsif !trailing.empty?
+          raise RimError.new("Extra trailing args")
+        end
+        unless pane.buffer.saved
+          File.write(file, content)
+        end
+        sizestr = "#{(content.bytesize / 1024.0).round(2)} KB"
+        sizestr = "#{(content.bytesize / 1024.0 / 1024.0).round(2)} MB" if content.bytesize > 700
+        pane.buffer.saved = true
+        Rim::Paint.showMsg "#{sizestr} #{file}"
+      }
 
       Cmd::COMMAND_HANDLERS['nu'] = Cmd::COMMAND_HANDLERS['number'] = lambda { |force, trailing|
         raise RimError.new("Extra trailng args - #{trailng}") if trailing and trailing.length > 0
@@ -239,8 +259,13 @@ module Rim
       }
 
       Cmd::COMMAND_HANDLERS['tabw'] = Cmd::COMMAND_HANDLERS['tw'] = Cmd::COMMAND_HANDLERS['tabwidth'] = lambda { |force, trailing|
-        raise RimError.new("No trailng args - #{trailng}") if !trailing or trailing.empty?
+        raise RimError.new("Require trailng args") if !trailing or trailing.empty?
         $tab_width = trailing.strip.to_i
+        pane = Rim::Paint.panes[Paint.focusedPane]
+        pane.buffer.lines.each_with_index do |line, index|
+          pane.buffer.lines[index] = line.sub(/^ +/, " " * $tab_width)
+        end
+        pane.moveCol(-1).moveCol(1).moveRow 0
       }
     end
   end
