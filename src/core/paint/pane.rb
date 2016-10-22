@@ -232,6 +232,14 @@ module Rim
       $numbers = true # line numbers
       $numbers_min_space = 1 # minimum space before number
       $tab_width = 4
+      Cmd::COMMAND_HANDLERS['q'] = lambda { |force, trailing|
+        raise RimError.new("Extra trailng args - #{trailng}") if trailing and trailing.length > 0
+        pane = Rim::Paint.panes[Paint.focusedPane]
+        sMode = pane.mode
+        mode = Core.modes[sMode]
+        mode.handlers[:exit].call mode, pane, force
+      }
+
       Cmd::COMMAND_HANDLERS['w'] = lambda { |force, trailing|
         trailing.strip!
         pane = Rim::Paint.panes[Paint.focusedPane]

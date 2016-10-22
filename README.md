@@ -33,6 +33,10 @@ w: write file
 
   0..1 argument: file path
 
+q: quit
+
+  add ! to force quit
+
 ### We welcome everyone to chat in gitter or open issues for discussions!
 
 **100% implemented in ruby**
